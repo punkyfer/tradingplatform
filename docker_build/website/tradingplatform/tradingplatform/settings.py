@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'tradingplatform.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'djangodb',
-        'USER': 'juan',
-        'PASSWORD': 'ijosdeputa2',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
         'HOST': 'postgresql-db',
         'PORT': 5432,
     }
