@@ -1,0 +1,42 @@
+version: '3'
+services:
+  postgresql-db:
+    image: postgres:latest
+    volumes:
+      - "./docker_volumes/postgresql:/var/lib/postgresql/data"
+    restart: always
+    ports:
+      - "5432:5432"
+
+  websocket:
+    depends_on:
+      - postgresql-db
+    build: ./docker_build/websocket
+    links:
+      - postgresql-db
+    restart: always
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8000"
+    volumes:
+      - "./docker_build/nginx:/etc/nginx/conf.d"
+      - /static:/static
+    links:
+      - website
+    depends_on:
+      - website
+
+  website:
+    depends_on:
+      - postgresql-db
+    build: ./docker_build/website
+    command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && gunicorn tradingplatform.wsgi -b 0.0.0.0:8000"
+    volumes:
+      - ./docker_build/website/tradingplatform:/website
+      - /static:/static
+    ports:
+      - "8000:8000"
+    links:
+      - postgresql-db

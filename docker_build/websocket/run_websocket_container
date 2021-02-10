@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker run -d --name websocket --network trading-network --expose 27017 websocket-image

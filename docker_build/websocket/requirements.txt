@@ -1,0 +1,3 @@
+socketIO-client
+pandas
+psycopg2-binary
